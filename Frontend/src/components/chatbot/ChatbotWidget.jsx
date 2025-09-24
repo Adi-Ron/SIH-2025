@@ -1,94 +1,69 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import styles from './ChatbotWidget.module.scss';
-import { BOT_MESSAGES, detectLanguage, replyFor } from './botMessages.js';
-import { AIAPI } from '../../services/api.js';
+import { BOT_MESSAGES } from './botMessages.js';
 
 export function ChatbotWidget() {
-  const [open, setOpen] = useState(false);
-  const [input, setInput] = useState('');
+  const [showNudge, setShowNudge] = useState(false);
   const [lang, setLang] = useState('en');
-  const [messages, setMessages] = useState([
-    { id: 1, from: 'bot', text: BOT_MESSAGES['en'].hello }
-  ]);
-  const listRef = useRef(null);
+  const navigate = useNavigate();
 
+  // Show nudge after a delay
   useEffect(() => {
-    if (listRef.current) {
-      listRef.current.scrollTop = listRef.current.scrollHeight;
-    }
-  }, [messages, open]);
+    const timer = setTimeout(() => {
+      setShowNudge(true);
+    }, 3000);
 
-  function send() {
-    const text = input.trim();
-    if (!text) return;
-    setMessages(prev => [...prev, { id: prev.length + 1, from: 'you', text }]);
-    setInput('');
-    setTimeout(async () => {
-      const detected = detectLanguage(text) || lang;
-      try {
-        const ai = await AIAPI.chat({ messages: [{ role: 'user', content: text }], lang: detected });
-        setLang(detected);
-        setMessages(prev => [...prev, { id: prev.length + 1, from: 'bot', text: ai.reply }]);
-      } catch {
-        const fallback = replyFor(text, detected);
-        setLang(detected);
-        setMessages(prev => [...prev, { id: prev.length + 1, from: 'bot', text: fallback }]);
-      }
-    }, 200);
-  }
+    return () => clearTimeout(timer);
+  }, []);
 
-  const handleLangChange = (e) => {
-    const newLang = e.target.value;
-    setLang(newLang);
-    setMessages([{ id: 1, from: 'bot', text: BOT_MESSAGES[newLang].hello }]);
+  const handleChatClick = () => {
+    navigate('/student/ai-companion');
+  };
+
+  const handleNudgeClick = () => {
+    setShowNudge(false);
+    navigate('/student/ai-companion');
   };
 
   return (
     <div className={styles.root}>
-      {!open && (
-        <div className={styles.nudge} onClick={() => setOpen(true)}>
-          <div className={styles.nudgeIcon}>💬</div>
-          <span>{BOT_MESSAGES[lang].nudge}</span>
+      {showNudge && (
+        <div className={styles.nudge} onClick={handleNudgeClick}>
+          <div className={styles.nudgeIcon}>🤖</div>
+          <div className={styles.nudgeContent}>
+            <div className={styles.nudgeTitle}>Need someone to talk to?</div>
+            <div className={styles.nudgeText}>
+              {BOT_MESSAGES[lang].nudge || "I'm here to listen and support you 24/7"}
+            </div>
+          </div>
+          <button 
+            className={styles.nudgeClose}
+            onClick={(e) => {
+              e.stopPropagation();
+              setShowNudge(false);
+            }}
+          >
+            ×
+          </button>
         </div>
       )}
 
       <div className={styles.widgetContainer}>
-        {open && (
-          <div className={styles.panel}>
-            <div className={styles.header}>
-              <div className={styles.headerInfo}>
-                <img src="/images/logo.png" alt="Logo" className={styles.logo} />
-                <span className={styles.title}>AI Assistant</span>
-              </div>
-              <select value={lang} onChange={handleLangChange} className={styles.langSelect}>
-                <option value="en">English</option>
-                <option value="hi">Hindi</option>
-                <option value="ta">Tamil</option>
-                <option value="te">Telugu</option>
-                <option value="bn">Bengali</option>
-              </select>
-            </div>
-            <div className={styles.list} ref={listRef}>
-              {messages.map(m => (
-                <div key={m.id} className={`${styles.msg} ${m.from === 'you' ? styles.you : styles.bot}`}>
-                  {m.text}
-                </div>
-              ))}
-            </div>
-            <form className={styles.inputRow} onSubmit={(e) => { e.preventDefault(); send(); }}>
-              <input
-                value={input}
-                onChange={e => setInput(e.target.value)}
-                placeholder={BOT_MESSAGES[lang].placeholder}
-                onKeyDown={e => e.key === 'Enter' && !e.shiftKey && (e.preventDefault(), send())}
-              />
-              <button type="submit" className="btn primary">Send</button>
-            </form>
-          </div>
-        )}
-        <button className={styles.fab} onClick={() => setOpen(v => !v)} aria-label="Toggle Chatbot">
-          {open ? '×' : '💬'}
+        <button 
+          className={styles.fab} 
+          onClick={handleChatClick}
+          aria-label="Open AI Companion"
+          title="Chat with AI Companion"
+        >
+          <div className={styles.fabIcon}>🤖</div>
+          <div className={styles.fabPulse}></div>
         </button>
+        
+        <div className={styles.fabTooltip}>
+          <span>AI Companion</span>
+          <div className={styles.tooltipArrow}></div>
+        </div>
       </div>
     </div>
   );

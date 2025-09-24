@@ -7,6 +7,7 @@ import { CrisisAlert } from './pages/student/CrisisAlert.jsx'
 import { ChooseSupport } from './pages/student/ChooseSupport.jsx'
 import { SelfHelp } from './pages/student/SelfHelp.jsx'
 import { PeerSupport } from './pages/student/PeerSupport.jsx'
+import { AICompanion } from './pages/student/AICompanion.jsx'
 import { Counselor } from './pages/student/Counselor.jsx'
 import { Feedback } from './pages/student/Feedback.jsx'
 import { AdminLogin } from './pages/admin/AdminLogin.jsx'
@@ -41,6 +42,7 @@ export default function App() {
           <Route path="student/support" element={<ChooseSupport />} />
           <Route path="student/self-help" element={<SelfHelp />} />
           <Route path="student/peer" element={<PeerSupport />} />
+          <Route path="student/ai-companion" element={<AICompanion />} />
           <Route path="student/counselor" element={<Counselor />} />
           <Route path="student/feedback" element={<Feedback />} />
 

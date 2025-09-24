@@ -21,7 +21,7 @@ export function ChooseSupport() {
             <span className={styles.feature}>Always available</span>
             <span className={styles.feature}>Multilingual</span>
           </div>
-          <Link to="/student/peer" className={styles.cardBtn}>
+          <Link to="/student/ai-companion" className={styles.cardBtn}>
             Start Chatting
           </Link>
         </div>

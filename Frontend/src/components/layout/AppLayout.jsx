@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react';
 import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext.jsx';
-import { MoodIndicator } from '../mood/MoodIndicator.jsx';
+import { MoodDropdown } from '../mood/MoodDropdown.jsx';
 import { ChatbotWidget } from '../chatbot/ChatbotWidget.jsx';
 import { useClickAway } from 'react-use';
 import styles from './AppLayout.module.scss';
@@ -106,7 +106,7 @@ export function AppLayout() {
             <NavLink to="/student/assessment">Assessment</NavLink>
           </nav>
           <div className={styles.headerRight}>
-            <MoodIndicator compact={true} />
+            {(studentLoggedIn || adminLoggedIn) && <MoodDropdown />}
             
             {studentLoggedIn || adminLoggedIn ? (
               <div className={styles['user-menu']}>
@@ -164,9 +164,6 @@ export function AppLayout() {
           <div className={styles.contentArea}>
             <Outlet />
           </div>
-          <aside className={styles.sidebar}>
-            <MoodIndicator showHistory={true} />
-          </aside>
         </div>
       </main>
 
