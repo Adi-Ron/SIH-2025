@@ -28,8 +28,10 @@
 
 .supportGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 24px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 32px;
+  max-width: 1000px;
+  margin: 0 auto;
 }
 
 .supportCard {
@@ -145,6 +147,12 @@
 }
 
 // Responsive Design
+@media (max-width: 1024px) {
+  .supportGrid {
+    gap: 24px;
+  }
+}
+
 @media (max-width: 768px) {
   .support {
     padding: 16px;
@@ -160,7 +168,8 @@
   
   .supportGrid {
     grid-template-columns: 1fr;
-    gap: 16px;
+    gap: 20px;
+    max-width: 500px;
   }
   
   .supportCard {

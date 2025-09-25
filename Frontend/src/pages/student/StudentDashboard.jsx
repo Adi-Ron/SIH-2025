@@ -1,17 +1,154 @@
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { AppointmentsAPI } from '../../services/api.js';
 import styles from './StudentDashboard.module.scss';
 
 export function StudentDashboard() {
   const [currentTime, setCurrentTime] = useState(new Date().toLocaleTimeString());
+  const [upcomingAppointment, setUpcomingAppointment] = useState(null);
+  const [loadingAppointment, setLoadingAppointment] = useState(true);
+  const [assessmentData, setAssessmentData] = useState({
+    lastAssessment: null,
+    wellnessScore: null,
+    currentWellness: 'Good'
+  });
+
+  // Scroll to top when component mounts
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  // Load assessment data from localStorage
+  useEffect(() => {
+    const loadAssessmentData = () => {
+      try {
+        const lastAssessment = localStorage.getItem('lastAssessmentResults');
+        const lastAssessmentDate = localStorage.getItem('lastAssessmentDate');
+        
+        if (lastAssessment && lastAssessmentDate) {
+          const results = JSON.parse(lastAssessment);
+          const assessmentDate = new Date(lastAssessmentDate);
+          
+          // Calculate days since last assessment
+          const daysSince = Math.floor((new Date() - assessmentDate) / (1000 * 60 * 60 * 24));
+          
+          // Calculate overall wellness score from results
+          let totalScore = 0;
+          let testCount = 0;
+          
+          if (results.phqScore !== undefined) {
+            // PHQ-9: Lower is better (0-27 scale, convert to 100-0)
+            totalScore += Math.max(0, 100 - (results.phqScore / 27) * 100);
+            testCount++;
+          }
+          
+          if (results.gadScore !== undefined) {
+            // GAD-7: Lower is better (0-21 scale, convert to 100-0)
+            totalScore += Math.max(0, 100 - (results.gadScore / 21) * 100);
+            testCount++;
+          }
+          
+          if (results.ghqScore !== undefined) {
+            // GHQ-12: Lower is better (0-12 scale, convert to 100-0)
+            totalScore += Math.max(0, 100 - (results.ghqScore / 12) * 100);
+            testCount++;
+          }
+          
+          const wellnessScore = testCount > 0 ? Math.round(totalScore / testCount) : 85;
+          
+          // Determine wellness status based on score
+          let currentWellness = 'Good';
+          if (wellnessScore < 40) currentWellness = 'Needs Attention';
+          else if (wellnessScore < 60) currentWellness = 'Fair';
+          else if (wellnessScore < 80) currentWellness = 'Good';
+          else currentWellness = 'Excellent';
+          
+          setAssessmentData({
+            lastAssessment: daysSince === 0 ? 'Today' : 
+                          daysSince === 1 ? '1 day ago' : 
+                          `${daysSince} days ago`,
+            wellnessScore: `${wellnessScore}%`,
+            currentWellness
+          });
+        }
+      } catch (error) {
+        console.error('Error loading assessment data:', error);
+      }
+    };
+    
+    loadAssessmentData();
+    
+    // Listen for assessment updates
+    const handleStorageChange = (e) => {
+      if (e.key === 'lastAssessmentResults' || e.key === 'lastAssessmentDate') {
+        loadAssessmentData();
+      }
+    };
+    
+    window.addEventListener('storage', handleStorageChange);
+    
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+    };
+  }, []);
 
   // Update time every minute
-  useState(() => {
+  useEffect(() => {
     const timer = setInterval(() => {
       setCurrentTime(new Date().toLocaleTimeString());
     }, 60000);
     return () => clearInterval(timer);
   }, []);
+
+  // Fetch upcoming appointment
+  useEffect(() => {
+    const fetchUpcomingAppointment = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        if (!token) {
+          setLoadingAppointment(false);
+          return;
+        }
+
+        // Check if there's a stored appointment ID from recent booking
+        const lastAppointmentId = localStorage.getItem('lastAppointmentId');
+        if (lastAppointmentId) {
+          // For demo purposes, we'll check localStorage for appointment data
+          // In a real app, you'd fetch from the API
+          const appointmentData = localStorage.getItem('upcomingAppointment');
+          if (appointmentData) {
+            const appointment = JSON.parse(appointmentData);
+            const appointmentDate = new Date(appointment.startsAt);
+            
+            // Only show if appointment is in the future
+            if (appointmentDate > new Date()) {
+              setUpcomingAppointment(appointment);
+            }
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching appointment:', error);
+      } finally {
+        setLoadingAppointment(false);
+      }
+    };
+
+    fetchUpcomingAppointment();
+  }, []);
+
+  // Function to format appointment date
+  const formatAppointmentDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: '2-digit',
+      hour12: true
+    });
+  };
 
   return (
     <div className={styles.dashboard}>
@@ -38,27 +175,69 @@ export function StudentDashboard() {
                 <div className={styles.statusIcon}>💚</div>
                 <div className={styles.statusInfo}>
                   <span className={styles.statusLabel}>Current Wellness</span>
-                  <span className={`${styles.statusValue} ${styles.good}`}>Good</span>
+                  <span className={`${styles.statusValue} ${
+                    assessmentData.currentWellness === 'Excellent' ? styles.excellent :
+                    assessmentData.currentWellness === 'Good' ? styles.good :
+                    assessmentData.currentWellness === 'Fair' ? styles.fair :
+                    styles.needsAttention
+                  }`}>
+                    {assessmentData.currentWellness || 'Good'}
+                  </span>
                 </div>
               </div>
               <div className={styles.statusItem}>
                 <div className={styles.statusIcon}>📊</div>
                 <div className={styles.statusInfo}>
                   <span className={styles.statusLabel}>Last Assessment</span>
-                  <span className={styles.statusValue}>2 days ago</span>
+                  <span className={styles.statusValue}>{assessmentData.lastAssessment || 'Never'}</span>
                 </div>
               </div>
               <div className={styles.statusItem}>
                 <div className={styles.statusIcon}>🎯</div>
                 <div className={styles.statusInfo}>
                   <span className={styles.statusLabel}>Wellness Score</span>
-                  <span className={styles.statusValue}>85%</span>
+                  <span className={styles.statusValue}>{assessmentData.wellnessScore || '85%'}</span>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </section>
+
+      {/* Next Appointment - Only show if there's a real appointment */}
+      {!loadingAppointment && upcomingAppointment && (
+        <section className={styles.appointmentSection}>
+          <div className={styles.appointmentCard}>
+            <div className={styles.appointmentHeader}>
+              <div className={styles.appointmentIcon}>📅</div>
+              <div className={styles.appointmentInfo}>
+                <h2 className={styles.appointmentTitle}>Next Counseling Session</h2>
+                <p className={styles.appointmentSubtitle}>Your upcoming appointment with your counselor</p>
+              </div>
+            </div>
+            
+            <div className={styles.appointmentDetails}>
+              <div className={styles.appointmentDate}>
+                <div className={styles.dateIcon}>🗓️</div>
+                <div className={styles.dateInfo}>
+                  <div className={styles.dateLabel}>Date & Time</div>
+                  <div className={styles.dateValue}>{formatAppointmentDate(upcomingAppointment.startsAt)}</div>
+                </div>
+              </div>
+              
+              <div className={styles.appointmentCounselor}>
+                <div className={styles.counselorIcon}>👨‍⚕️</div>
+                <div className={styles.counselorInfo}>
+                  <div className={styles.counselorLabel}>Your Counselor</div>
+                  <div className={styles.counselorValue}>{upcomingAppointment.counselorName || 'Your Counselor'}</div>
+                  <div className={styles.counselorSpecialty}>{upcomingAppointment.specialty || 'Licensed Professional'}</div>
+                </div>
+              </div>
+              
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Quick Actions */}
       <section className={styles.quickActions}>
@@ -151,42 +330,16 @@ export function StudentDashboard() {
                 <div className={styles.optionDesc}>Guided exercises & articles</div>
               </div>
             </Link>
+            <Link to="/student/gratitude-journal" className={styles.supportOption}>
+              <div className={styles.optionIcon}>📔</div>
+              <div className={styles.optionContent}>
+                <div className={styles.optionTitle}>Gratitude Journal</div>
+                <div className={styles.optionDesc}>Daily reflection & positivity</div>
+              </div>
+            </Link>
           </div>
         </div>
 
-        {/* Wellness Tips */}
-        <div className={styles.wellnessSection}>
-          <div className={styles.cardHeader}>
-            <h3>Daily Wellness</h3>
-            <div className={styles.headerIcon}>🌱</div>
-          </div>
-          <div className={styles.wellnessTips}>
-            <div className={styles.tipCard}>
-              <div className={styles.tipIcon}>🧘</div>
-              <div className={styles.tipContent}>
-                <h4>Mindful Breathing</h4>
-                <p>Take 5 minutes to practice deep breathing exercises</p>
-                <Link to="/student/self-help" className={styles.tipAction}>Try Now</Link>
-              </div>
-            </div>
-            <div className={styles.tipCard}>
-              <div className={styles.tipIcon}>📝</div>
-              <div className={styles.tipContent}>
-                <h4>Gratitude Journal</h4>
-                <p>Write down three things you're grateful for today</p>
-                <Link to="/student/self-help" className={styles.tipAction}>Start Writing</Link>
-              </div>
-            </div>
-            <div className={styles.tipCard}>
-              <div className={styles.tipIcon}>🚶</div>
-              <div className={styles.tipContent}>
-                <h4>Take a Walk</h4>
-                <p>Fresh air and movement can boost your mood</p>
-                <div className={styles.tipAction}>Go Outside</div>
-              </div>
-            </div>
-          </div>
-        </div>
 
         {/* Recent Activity */}
         <div className={styles.activitySection}>

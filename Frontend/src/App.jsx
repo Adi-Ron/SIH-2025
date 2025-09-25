@@ -10,18 +10,18 @@ import { PeerSupport } from './pages/student/PeerSupport.jsx'
 import { AICompanion } from './pages/student/AICompanion.jsx'
 import { Counselor } from './pages/student/Counselor.jsx'
 import { Feedback } from './pages/student/Feedback.jsx'
-import { AdminLogin } from './pages/admin/AdminLogin.jsx'
+import { GratitudeJournal } from './pages/student/GratitudeJournal.jsx'
+import { GratitudeEntryDetail } from './pages/student/GratitudeEntryDetail.jsx'
 import { AdminDashboard } from './pages/admin/AdminDashboard.jsx'
 import { UserManagement } from './pages/admin/UserManagement.jsx'
-import { CaseMonitoring } from './pages/admin/CaseMonitoring.jsx'
 import { ReportsAnalytics } from './pages/admin/ReportsAnalytics.jsx'
 import { OfflineCounselorSupport } from './pages/admin/OfflineCounselorSupport.jsx'
 import { UpdatesNotification } from './pages/admin/UpdatesNotification.jsx'
+import { TherapistDashboard } from './pages/therapist/TherapistDashboard.jsx'
 import { AuthProvider, useAuth } from './context/AuthContext.jsx'
 import { MoodProvider } from './context/MoodContext.jsx'
 import Login from './pages/auth/Login.jsx'
 import Register from './pages/student/Register.jsx'
-import { ChatbotWidget } from './components/chatbot/ChatbotWidget.jsx'
 
 export default function App() {
   return (
@@ -45,19 +45,24 @@ export default function App() {
           <Route path="student/ai-companion" element={<AICompanion />} />
           <Route path="student/counselor" element={<Counselor />} />
           <Route path="student/feedback" element={<Feedback />} />
-
-          <Route path="admin">
-            <Route index element={<AdminLogin />} />
-            <Route path="dashboard" element={<AdminDashboard />} />
-            <Route path="users" element={<UserManagement />} />
-            <Route path="cases" element={<CaseMonitoring />} />
-            <Route path="reports" element={<ReportsAnalytics />} />
-            <Route path="offline-support" element={<OfflineCounselorSupport />} />
-            <Route path="updates" element={<UpdatesNotification />} />
-          </Route>
+          <Route path="student/gratitude-journal" element={<GratitudeJournal />} />
+          <Route path="student/gratitude-journal/entry/:date" element={<GratitudeEntryDetail />} />
         </Route>
+
+       {/* Admin routes - without AppLayout */}
+       <Route path="admin">
+         <Route path="dashboard" element={<RequireAdmin><AdminDashboard /></RequireAdmin>} />
+         <Route path="users" element={<RequireAdmin><UserManagement /></RequireAdmin>} />
+         <Route path="reports" element={<RequireAdmin><ReportsAnalytics /></RequireAdmin>} />
+         <Route path="offline-support" element={<RequireAdmin><OfflineCounselorSupport /></RequireAdmin>} />
+         <Route path="updates" element={<RequireAdmin><UpdatesNotification /></RequireAdmin>} />
+       </Route>
+
+       {/* Therapist routes - without AppLayout */}
+       <Route path="therapist">
+         <Route path="dashboard" element={<RequireTherapist><TherapistDashboard /></RequireTherapist>} />
+       </Route>
         </Routes>
-        <ChatbotWidget />
       </MoodProvider>
     </AuthProvider>
   )
@@ -66,6 +71,18 @@ export default function App() {
 function RequireStudent({ children }){
   const { studentLoggedIn } = useAuth()
   if (!studentLoggedIn) return <Navigate to="/login?role=student" replace />
+  return children
+}
+
+function RequireAdmin({ children }){
+  const { adminLoggedIn } = useAuth()
+  if (!adminLoggedIn) return <Navigate to="/login?role=admin" replace />
+  return children
+}
+
+function RequireTherapist({ children }){
+  const { therapistLoggedIn } = useAuth()
+  if (!therapistLoggedIn) return <Navigate to="/login?role=therapist" replace />
   return children
 }
 

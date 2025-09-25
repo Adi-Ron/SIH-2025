@@ -6,6 +6,7 @@ const AuthContext = createContext(null)
 export function AuthProvider({ children }) {
   const [studentLoggedIn, setStudentLoggedIn] = useState(false)
   const [adminLoggedIn, setAdminLoggedIn] = useState(false)
+  const [therapistLoggedIn, setTherapistLoggedIn] = useState(false)
   const [user, setUser] = useState(null)
 
   useEffect(()=>{
@@ -15,6 +16,7 @@ export function AuthProvider({ children }) {
       setUser({ role })
       setStudentLoggedIn(role==='student')
       setAdminLoggedIn(role==='admin')
+      setTherapistLoggedIn(role==='therapist')
     }
   }, [])
 
@@ -25,6 +27,7 @@ export function AuthProvider({ children }) {
     setUser(data.user)
     setStudentLoggedIn(data.user.role==='student')
     setAdminLoggedIn(data.user.role==='admin')
+    setTherapistLoggedIn(data.user.role==='therapist')
   }
 
   const loginStudent = () => { 
@@ -45,17 +48,23 @@ export function AuthProvider({ children }) {
       // await AuthAPI.logout();
       
       setStudentLoggedIn(false); 
+      setAdminLoggedIn(false);
+      setTherapistLoggedIn(false);
       localStorage.removeItem('token'); 
       localStorage.removeItem('role');
       localStorage.removeItem('user');
+      localStorage.removeItem('therapistData');
       setUser(null);
     } catch (error) {
       console.error('Logout error:', error);
       // Even if there's an error, we still want to clear the local state
       setStudentLoggedIn(false);
+      setAdminLoggedIn(false);
+      setTherapistLoggedIn(false);
       localStorage.removeItem('token');
       localStorage.removeItem('role');
       localStorage.removeItem('user');
+      localStorage.removeItem('therapistData');
       setUser(null);
       throw error;
     }
@@ -65,10 +74,25 @@ export function AuthProvider({ children }) {
     try {
       setAdminLoggedIn(true); 
       setStudentLoggedIn(false);
+      setTherapistLoggedIn(false);
       localStorage.setItem('role', 'admin');
       setUser({ role: 'admin' });
     } catch (error) {
       console.error('Admin login error:', error);
+      throw error;
+    }
+  }
+  
+  const loginTherapist = (therapistData) => { 
+    try {
+      setTherapistLoggedIn(true); 
+      setStudentLoggedIn(false);
+      setAdminLoggedIn(false);
+      localStorage.setItem('role', 'therapist');
+      localStorage.setItem('therapistData', JSON.stringify(therapistData));
+      setUser({ role: 'therapist', ...therapistData });
+    } catch (error) {
+      console.error('Therapist login error:', error);
       throw error;
     }
   }
@@ -79,24 +103,66 @@ export function AuthProvider({ children }) {
       // await AuthAPI.logout();
       
       setAdminLoggedIn(false); 
+      setStudentLoggedIn(false);
+      setTherapistLoggedIn(false);
       localStorage.removeItem('token'); 
       localStorage.removeItem('role');
       localStorage.removeItem('user');
+      localStorage.removeItem('therapistData');
       setUser(null);
     } catch (error) {
       console.error('Admin logout error:', error);
       // Even if there's an error, we still want to clear the local state
       setAdminLoggedIn(false);
+      setStudentLoggedIn(false);
+      setTherapistLoggedIn(false);
       localStorage.removeItem('token');
       localStorage.removeItem('role');
       localStorage.removeItem('user');
+      localStorage.removeItem('therapistData');
+      setUser(null);
+      throw error;
+    }
+  }
+  
+  const logoutTherapist = async () => { 
+    try {
+      setTherapistLoggedIn(false); 
+      setAdminLoggedIn(false);
+      setStudentLoggedIn(false);
+      localStorage.removeItem('token'); 
+      localStorage.removeItem('role');
+      localStorage.removeItem('user');
+      localStorage.removeItem('therapistData');
+      setUser(null);
+    } catch (error) {
+      console.error('Therapist logout error:', error);
+      setTherapistLoggedIn(false);
+      setAdminLoggedIn(false);
+      setStudentLoggedIn(false);
+      localStorage.removeItem('token');
+      localStorage.removeItem('role');
+      localStorage.removeItem('user');
+      localStorage.removeItem('therapistData');
       setUser(null);
       throw error;
     }
   }
 
   return (
-    <AuthContext.Provider value={{ user, studentLoggedIn, adminLoggedIn, loginStudent, logoutStudent, loginAdmin, logoutAdmin, login }}>
+    <AuthContext.Provider value={{ 
+      user, 
+      studentLoggedIn, 
+      adminLoggedIn, 
+      therapistLoggedIn,
+      loginStudent, 
+      logoutStudent, 
+      loginAdmin, 
+      logoutAdmin, 
+      loginTherapist,
+      logoutTherapist,
+      login 
+    }}>
       {children}
     </AuthContext.Provider>
   )

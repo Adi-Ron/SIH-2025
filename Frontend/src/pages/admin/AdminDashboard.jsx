@@ -29,11 +29,14 @@ export function AdminDashboard() {
   ];
 
   return (
-    <div className={styles.dashboardContainer}>
+    <div className={styles.adminPage}>
       <header className={styles.header}>
         <div className={styles.headerLeft}>
           <img src="/images/logo.png" alt="Logo" className={styles.logo} />
-          <h1>MindFulness Admin</h1>
+          <div className={styles.brandInfo}>
+            <h1>MindFulness Admin</h1>
+            <p>Administrative Dashboard</p>
+          </div>
         </div>
         <div className={styles.headerRight}>
           <div className={styles.adminStatus}>
@@ -117,17 +120,9 @@ export function AdminDashboard() {
                 <div className={styles.actionIcon}>👥</div>
                 <span>Manage Users</span>
               </button>
-              <button className={styles.actionBtn} onClick={() => navigate('/admin/cases')}>
-                <div className={styles.actionIcon}>📋</div>
-                <span>View Cases</span>
-              </button>
               <button className={styles.actionBtn} onClick={() => navigate('/admin/reports')}>
                 <div className={styles.actionIcon}>📊</div>
                 <span>Generate Reports</span>
-              </button>
-              <button className={styles.actionBtn}>
-                <div className={styles.actionIcon}>🔔</div>
-                <span>Send Notification</span>
               </button>
             </div>
           </section>

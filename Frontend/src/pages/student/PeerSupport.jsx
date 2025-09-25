@@ -231,6 +231,7 @@ export function PeerSupport() {
   const [messages, setMessages] = useState(INITIAL_MESSAGES)
   const [newMessage, setNewMessage] = useState('')
   const [showReactionPicker, setShowReactionPicker] = useState(null)
+  const [isTyping, setIsTyping] = useState(false)
   const messagesEndRef = useRef(null)
 
   const scrollToBottom = () => {
@@ -244,20 +245,26 @@ export function PeerSupport() {
   const handleSendMessage = () => {
     if (!newMessage.trim()) return
 
-    const userMessage = {
-      id: Date.now(),
-      username: 'Anonymous',
-      timestamp: 'just now',
-      text: newMessage,
-      reactions: []
-    }
+    setIsTyping(true)
+    
+    // Simulate message sending delay
+    setTimeout(() => {
+      const userMessage = {
+        id: Date.now(),
+        username: 'Anonymous',
+        timestamp: 'just now',
+        text: newMessage,
+        reactions: []
+      }
 
-    setMessages(prev => ({
-      ...prev,
-      [activeChannel]: [...prev[activeChannel], userMessage]
-    }))
+      setMessages(prev => ({
+        ...prev,
+        [activeChannel]: [...prev[activeChannel], userMessage]
+      }))
 
-    setNewMessage('')
+      setNewMessage('')
+      setIsTyping(false)
+    }, 500)
   }
 
   const handleReaction = (messageId, emoji) => {
@@ -309,6 +316,13 @@ export function PeerSupport() {
     }
   }
 
+  const handleChannelChange = (channelId) => {
+    setActiveChannel(channelId)
+    setShowReactionPicker(null)
+    // Auto-scroll to bottom when changing channels
+    setTimeout(scrollToBottom, 100)
+  }
+
   const activeChannelData = CHANNELS.find(c => c.id === activeChannel)
   const currentMessages = messages[activeChannel] || []
 
@@ -331,7 +345,7 @@ export function PeerSupport() {
             <div
               key={channel.id}
               className={`${styles.channelItem} ${activeChannel === channel.id ? styles.active : ''}`}
-              onClick={() => setActiveChannel(channel.id)}
+              onClick={() => handleChannelChange(channel.id)}
             >
               <div className={styles.channelIcon}>
                 {channel.icon}
@@ -386,19 +400,12 @@ export function PeerSupport() {
                       +
                     </button>
                     {showReactionPicker === message.id && (
-                      <div style={{ display: 'flex', gap: '5px', marginTop: '5px' }}>
+                      <div className={styles.reactionPicker}>
                         {COMMON_REACTIONS.map(emoji => (
                           <button
                             key={emoji}
+                            className={styles.reactionPickerBtn}
                             onClick={() => handleReaction(message.id, emoji)}
-                            style={{
-                              background: 'rgba(255,255,255,0.1)',
-                              border: 'none',
-                              borderRadius: '15px',
-                              padding: '5px 8px',
-                              cursor: 'pointer',
-                              fontSize: '1rem'
-                            }}
                           >
                             {emoji}
                           </button>
@@ -409,6 +416,24 @@ export function PeerSupport() {
                 </div>
               </div>
             ))}
+            
+            {/* Typing indicator */}
+            {isTyping && (
+              <div className={styles.messageGroup}>
+                <div className={styles.messageHeader}>
+                  <div className={styles.avatar}>A</div>
+                  <span className={styles.username}>Anonymous</span>
+                </div>
+                <div className={styles.messageContent}>
+                  <div className={styles.typingIndicator}>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                </div>
+              </div>
+            )}
+            
             <div ref={messagesEndRef} />
           </div>
 

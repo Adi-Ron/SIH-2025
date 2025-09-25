@@ -32,6 +32,12 @@ export const AuthAPI = {
 
 export const AppointmentsAPI = {
   book: (payload) => apiPost('/api/appointments/book', payload),
+  getTherapistAppointments: (therapistId, date = null) => {
+    const url = date 
+      ? `/api/appointments/therapist/${therapistId}?date=${date}`
+      : `/api/appointments/therapist/${therapistId}/all`
+    return apiGet(url)
+  },
 }
 
 export const FeedbackAPI = {

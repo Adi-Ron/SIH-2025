@@ -2,7 +2,6 @@ import { useState, useRef } from 'react';
 import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext.jsx';
 import { MoodDropdown } from '../mood/MoodDropdown.jsx';
-import { ChatbotWidget } from '../chatbot/ChatbotWidget.jsx';
 import { useClickAway } from 'react-use';
 import styles from './AppLayout.module.scss';
 
@@ -102,6 +101,7 @@ export function AppLayout() {
           </div>
           <nav className={styles.navLinks}>
             <NavLink to="/student/dashboard">Dashboard</NavLink>
+            <NavLink to="/student/ai-companion">AI Companion</NavLink>
             <NavLink to="/student/support">Get Support</NavLink>
             <NavLink to="/student/assessment">Assessment</NavLink>
           </nav>
@@ -168,15 +168,21 @@ export function AppLayout() {
       </main>
 
       <footer className={styles.footer}>
-        <p>&copy; 2025 MindFulness. Your mental health matters.</p>
-        <div className={styles.footerLinks}>
-          <Link to="/privacy">Privacy Policy</Link>
-          <Link to="/terms">Terms of Service</Link>
-          <Link to="/contact">Contact</Link>
+        <div className={styles.footerContent}>
+          <p>&copy; 2025 MindFulness. Your mental health matters.</p>
+          <div className={styles.teamCredits}>
+            <p>Made with 💚 by</p>
+            <div className={styles.teamMembers}>
+              <span>Aditya Banerjee</span>
+              <span>Khushi Mhamane</span>
+              <span>Dominic Joseph</span>
+              <span>Aditya S S Varma</span>
+              <span>Peeyush Rampal</span>
+              <span>Sharon Melhi</span>
+            </div>
+          </div>
         </div>
       </footer>
-      
-      <ChatbotWidget />
     </div>
   );
 }

@@ -11,22 +11,6 @@ export function ChooseSupport() {
       
       <div className={styles.supportGrid}>
         <div className={styles.supportCard}>
-          <div className={styles.cardIcon}>🤖</div>
-          <h3 className={styles.cardTitle}>AI Companion</h3>
-          <p className={styles.cardDescription}>
-            Chat with our intelligent AI that understands your emotions and provides 24/7 support
-          </p>
-          <div className={styles.cardFeatures}>
-            <span className={styles.feature}>Instant support</span>
-            <span className={styles.feature}>Always available</span>
-            <span className={styles.feature}>Multilingual</span>
-          </div>
-          <Link to="/student/ai-companion" className={styles.cardBtn}>
-            Start Chatting
-          </Link>
-        </div>
-
-        <div className={styles.supportCard}>
           <div className={styles.cardIcon}>👥</div>
           <h3 className={styles.cardTitle}>Peer Support</h3>
           <p className={styles.cardDescription}>
@@ -71,22 +55,6 @@ export function ChooseSupport() {
           </div>
           <Link to="/student/self-help" className={styles.cardBtn}>
             Explore Resources
-          </Link>
-        </div>
-
-        <div className={styles.supportCard}>
-          <div className={styles.cardIcon}>📊</div>
-          <h3 className={styles.cardTitle}>Mood Assessment</h3>
-          <p className={styles.cardDescription}>
-            Take a quick assessment to understand your current mental health status
-          </p>
-          <div className={styles.cardFeatures}>
-            <span className={styles.feature}>PHQ-9 & GAD-7</span>
-            <span className={styles.feature}>Instant results</span>
-            <span className={styles.feature}>Progress tracking</span>
-          </div>
-          <Link to="/student/assessment" className={styles.cardBtn}>
-            Take Assessment
           </Link>
         </div>
 

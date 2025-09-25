@@ -13,8 +13,13 @@ export function AICompanion() {
   const messagesEndRef = useRef(null);
 
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    messagesEndRef.current?.scrollIntoView({ behavior: "auto" });
   };
+
+  useEffect(() => {
+    // Scroll to top when component mounts
+    window.scrollTo(0, 0);
+  }, []);
 
   useEffect(() => {
     scrollToBottom();
@@ -56,13 +61,6 @@ export function AICompanion() {
     }
   };
 
-  const quickReplies = [
-    "I'm feeling anxious",
-    "I need someone to talk to",
-    "Help me relax",
-    "I'm stressed about school",
-    "Can you guide me through breathing exercises?"
-  ];
 
   return (
     <div className={styles.aiCompanion}>
@@ -86,6 +84,7 @@ export function AICompanion() {
             <option value="ta">தமிழ்</option>
             <option value="te">తెలుగు</option>
             <option value="bn">বাংলা</option>
+            <option value="kn">ಕನ್ನಡ</option>
           </select>
         </div>
       </div>
@@ -138,20 +137,6 @@ export function AICompanion() {
           <div ref={messagesEndRef} />
         </div>
 
-        <div className={styles.quickReplies}>
-          <p className={styles.quickRepliesLabel}>Quick responses:</p>
-          <div className={styles.quickRepliesGrid}>
-            {quickReplies.map((reply, index) => (
-              <button
-                key={index}
-                className={styles.quickReplyBtn}
-                onClick={() => setInput(reply)}
-              >
-                {reply}
-              </button>
-            ))}
-          </div>
-        </div>
 
         <div className={styles.inputArea}>
           <div className={styles.inputContainer}>
@@ -175,12 +160,7 @@ export function AICompanion() {
         </div>
       </div>
 
-      <div className={styles.disclaimer}>
-        <p>
-          💙 Remember: This AI companion provides support but isn't a replacement for professional help. 
-          If you're in crisis, please reach out to emergency services or a mental health professional.
-        </p>
-      </div>
     </div>
   );
 }
+

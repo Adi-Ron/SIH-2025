@@ -1,0 +1,93 @@
+.container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    overflow: hidden;
+    background: radial-gradient(ellipse at center, var(--bg-grad-1) 0%, var(--bg-grad-2) 70%);
+  }
+  
+  .gradientBg {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 20% 20%, rgba(20, 184, 166, 0.08), transparent 60%),
+                radial-gradient(ellipse at 80% 30%, rgba(45, 212, 191, 0.06), transparent 60%),
+                radial-gradient(ellipse at 30% 80%, rgba(13, 148, 136, 0.06), transparent 60%);
+    opacity: 0.9;
+  }
+  
+  .blobs {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    filter: blur(60px);
+    pointer-events: none;
+  }
+  
+  .blob {
+    position: absolute;
+    border-radius: 50%;
+    will-change: transform;
+    mix-blend-mode: screen;
+    
+    &:nth-child(1) {
+      width: 520px;
+      height: 520px;
+      background: rgba(45, 212, 191, 0.35);
+      animation: moveA 25s ease-in-out infinite alternate;
+      top: -10%;
+      left: -15%;
+    }
+  
+    &:nth-child(2) {
+      width: 380px;
+      height: 380px;
+      background: rgba(20, 184, 166, 0.28);
+      animation: moveB 30s ease-in-out infinite alternate-reverse;
+      bottom: -5%;
+      right: -10%;
+    }
+  
+    &:nth-child(3) {
+      width: 300px;
+      height: 300px;
+      background: rgba(13, 148, 136, 0.3);
+      animation: moveC 28s ease-in-out infinite alternate;
+      top: 30%;
+      right: 20%;
+    }
+    
+    &:nth-child(4) {
+      width: 240px;
+      height: 240px;
+      background: rgba(94, 234, 212, 0.22);
+      animation: moveD 32s ease-in-out infinite alternate-reverse;
+      bottom: 25%;
+      left: 15%;
+    }
+  }
+  
+  @keyframes moveA {
+    from { transform: translate(0, 0) scale(1); }
+    to { transform: translate(200px, 100px) scale(1.15); }
+  }
+  @keyframes moveB {
+    from { transform: translate(0, 0) scale(1); }
+    to { transform: translate(-160px, -80px) scale(1.2); }
+  }
+  @keyframes moveC {
+    from { transform: translate(0, 0) scale(1); }
+    to { transform: translate(140px, -60px) scale(1.1); }
+  }
+  @keyframes moveD {
+    from { transform: translate(0, 0) scale(1); }
+    to { transform: translate(-120px, 80px) scale(1.18); }
+  }
+  
+  @media (prefers-reduced-motion: reduce) {
+    .blob {
+      animation: none !important;
+    }
+  }

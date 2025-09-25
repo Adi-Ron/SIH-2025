@@ -129,8 +129,20 @@
         font-weight: 700;
         color: var(--text);
         
-        &.good {
+        &.excellent {
           color: var(--success);
+        }
+        
+        &.good {
+          color: var(--primary);
+        }
+        
+        &.fair {
+          color: var(--warning);
+        }
+        
+        &.needsAttention {
+          color: var(--danger);
         }
       }
     }
@@ -292,11 +304,183 @@
   50% { opacity: 0.5; }
 }
 
+// Appointment Section
+.appointmentSection {
+  margin-bottom: 30px;
+}
+
+.appointmentCard {
+  background: linear-gradient(135deg, rgba(102, 178, 178, 0.1) 0%, rgba(74, 157, 157, 0.1) 100%);
+  border: 1px solid rgba(102, 178, 178, 0.3);
+  border-radius: var(--radius-lg);
+  padding: 30px;
+  backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, transparent 30%, rgba(102, 178, 178, 0.05) 50%, transparent 70%);
+    animation: shimmer 3s ease-in-out infinite;
+  }
+}
+
+.appointmentHeader {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 25px;
+  position: relative;
+  z-index: 1;
+}
+
+.appointmentIcon {
+  font-size: 2.5rem;
+  width: 70px;
+  height: 70px;
+  background: rgba(102, 178, 178, 0.2);
+  border-radius: var(--radius-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.appointmentInfo {
+  flex: 1;
+}
+
+.appointmentTitle {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 8px 0;
+}
+
+.appointmentSubtitle {
+  color: var(--text-secondary);
+  font-size: 1rem;
+  margin: 0;
+}
+
+.appointmentDetails {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 25px;
+  margin-bottom: 25px;
+  position: relative;
+  z-index: 1;
+}
+
+.appointmentDate,
+.appointmentCounselor {
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.dateIcon,
+.counselorIcon {
+  font-size: 1.5rem;
+  width: 50px;
+  height: 50px;
+  background: rgba(102, 178, 178, 0.2);
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.dateInfo,
+.counselorInfo {
+  flex: 1;
+}
+
+.dateLabel,
+.counselorLabel {
+  font-size: 0.85rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 500;
+  margin-bottom: 5px;
+}
+
+.dateValue,
+.counselorValue {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 5px;
+}
+
+.counselorSpecialty {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
+.appointmentActions {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
+}
+
+.rescheduleButton,
+.joinButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 24px;
+  border-radius: var(--radius-lg);
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  border: none;
+}
+
+.rescheduleButton {
+  background: var(--panel-2);
+  color: var(--text);
+  border: 1px solid var(--border);
+  
+  &:hover {
+    background: var(--panel-3);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.joinButton {
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: white;
+  
+  &:hover {
+    background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(102, 178, 178, 0.4);
+  }
+}
+
 /* Main Grid Section */
 .mainGrid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: auto auto;
+  grid-template-columns: 1fr;
   gap: 25px;
 }
 
@@ -542,6 +726,31 @@
       gap: 25px;
       text-align: center;
     }
+  }
+  
+  .appointmentCard {
+    padding: 20px;
+  }
+  
+  .appointmentHeader {
+    flex-direction: column;
+    text-align: center;
+    gap: 15px;
+  }
+  
+  .appointmentDetails {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+  
+  .appointmentActions {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .rescheduleButton,
+  .joinButton {
+    width: 100%;
   }
   
   .welcomeSection .welcome {

@@ -18,6 +18,9 @@ const sampleUsers = [
   { name: 'Sarah Wilson', email: 'sarah@university.edu', username: 'sarah_w', password: 'password123', role: 'student' },
   { name: 'Dr. Emily Brown', email: 'emily@university.edu', username: 'dr_emily', password: 'password123', role: 'counselor' },
   { name: 'Dr. Michael Davis', email: 'michael@university.edu', username: 'dr_michael', password: 'password123', role: 'counselor' },
+  // Therapist accounts for frontend login
+  { name: 'Dr. A. Sharma', email: 'dr.sharma@mindfulness.com', username: 'therapist1', password: 'therapist123', role: 'therapist', specialty: 'Cognitive Behavioral Therapy' },
+  { name: 'Ms. R. Iyer', email: 'ms.iyer@mindfulness.com', username: 'therapist2', password: 'therapist456', role: 'therapist', specialty: 'Anxiety & Depression' },
   // Demo accounts with correct passwords for frontend
   { name: 'Admin User', email: 'admin@university.edu', username: 'admin', password: 'admin123', role: 'admin' },
   { name: 'Student Demo', email: 'student@university.edu', username: 'student_demo', password: 'admin123', role: 'student' }

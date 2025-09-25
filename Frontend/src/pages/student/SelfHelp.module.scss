@@ -1,0 +1,917 @@
+// Self Help Page Styles
+.selfHelp {
+  min-height: 100vh;
+  background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+  padding: var(--space-8) 0;
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 var(--space-6);
+}
+
+// Header Styles
+.header {
+  margin-bottom: var(--space-10);
+  text-align: center;
+}
+
+.headerContent {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-8);
+  margin-bottom: var(--space-8);
+}
+
+.headerIcon {
+  font-size: 4rem;
+  background: linear-gradient(135deg, var(--primary), var(--teal-400));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 0 20px rgba(102, 178, 178, 0.3));
+}
+
+.titleSection {
+  flex: 1;
+  max-width: 600px;
+}
+
+.title {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: var(--font-weight-extrabold);
+  color: var(--text-primary);
+  margin-bottom: var(--space-3);
+  background: linear-gradient(135deg, var(--primary), var(--teal-400));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1.2;
+  text-shadow: 0 0 30px rgba(102, 178, 178, 0.3);
+}
+
+.subtitle {
+  font-size: var(--font-size-xl);
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin: 0;
+}
+
+// Main Content Grid
+.mainContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+  margin-bottom: var(--space-8);
+}
+
+// Hero Section - Meditation & Sounds
+.heroSection {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-6);
+  margin-bottom: var(--space-8);
+}
+
+// Resources Row - Sleep Tips & Journal
+.resourcesRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-6);
+}
+
+// Section Styles
+.section {
+  background: var(--bg-glass);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  padding: var(--space-8);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+  }
+}
+
+.sectionTitle {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--text-primary);
+  margin-bottom: var(--space-6);
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.sectionIcon {
+  font-size: var(--font-size-xl);
+  color: var(--primary);
+}
+
+// Quick Meditation Section
+.quickMeditation {
+  background: linear-gradient(135deg, rgba(102, 178, 178, 0.1), rgba(56, 189, 248, 0.1));
+  border: 1px solid rgba(102, 178, 178, 0.2);
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary), var(--teal-400));
+  }
+
+  .meditationHeader {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    margin-bottom: var(--space-6);
+
+    .meditationIcon {
+      font-size: 3rem;
+      background: rgba(102, 178, 178, 0.2);
+      padding: var(--space-3);
+      border-radius: var(--radius-full);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .sectionTitle {
+      font-size: var(--font-size-2xl);
+      font-weight: var(--font-weight-bold);
+      color: var(--text-primary);
+      margin: 0;
+      flex: 1;
+    }
+
+    .meditationDuration {
+      background: var(--primary-bg);
+      color: var(--primary);
+      padding: var(--space-2) var(--space-4);
+      border-radius: var(--radius-full);
+      font-size: var(--font-size-sm);
+      font-weight: var(--font-weight-semibold);
+    }
+  }
+
+  .meditationContent {
+    .meditationSteps {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(102, 178, 178, 0.1);
+      border-radius: var(--radius-lg);
+      padding: var(--space-6);
+      margin-bottom: var(--space-6);
+
+      .step {
+        display: flex;
+        align-items: center;
+        gap: var(--space-4);
+        margin-bottom: var(--space-4);
+        color: var(--text-secondary);
+        font-size: var(--font-size-base);
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+
+        .stepNumber {
+          background: var(--primary);
+          color: white;
+          width: 28px;
+          height: 28px;
+          border-radius: var(--radius-full);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-weight: var(--font-weight-bold);
+          font-size: var(--font-size-sm);
+          flex-shrink: 0;
+        }
+      }
+    }
+  }
+
+  .meditationButton {
+    width: 100%;
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    border: none;
+    border-radius: var(--radius-lg);
+    padding: var(--space-5) var(--space-6);
+    color: white;
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--font-size-lg);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-3);
+    box-shadow: 0 4px 15px rgba(102, 178, 178, 0.3);
+
+    &:hover {
+      background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(102, 178, 178, 0.4);
+    }
+
+    .buttonIcon {
+      font-size: var(--font-size-xl);
+    }
+  }
+
+  .meditationTimer {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(102, 178, 178, 0.2);
+    border-radius: var(--radius-lg);
+    padding: var(--space-6);
+    text-align: center;
+
+    .timerDisplay {
+      margin-bottom: var(--space-6);
+
+      .timeLeft {
+        font-size: 3.5rem;
+        font-weight: var(--font-weight-extrabold);
+        color: var(--primary);
+        margin-bottom: var(--space-2);
+        text-shadow: 0 0 20px rgba(102, 178, 178, 0.5);
+        font-family: 'Courier New', monospace;
+      }
+
+      .timerLabel {
+        font-size: var(--font-size-lg);
+        color: var(--text-secondary);
+        font-weight: var(--font-weight-semibold);
+      }
+    }
+
+    .timerControls {
+      display: flex;
+      gap: var(--space-3);
+      justify-content: center;
+
+      .timerButton {
+        background: var(--bg-glass);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        padding: var(--space-3) var(--space-6);
+        color: var(--text);
+        font-weight: var(--font-weight-semibold);
+        cursor: pointer;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        gap: var(--space-2);
+
+        &:hover {
+          background: var(--primary-bg);
+          border-color: var(--primary);
+          color: var(--primary);
+          transform: translateY(-2px);
+        }
+      }
+    }
+  }
+}
+
+// Calming Sounds Section
+.calmingSounds {
+  .soundsHeader {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    margin-bottom: var(--space-6);
+
+    .soundsIcon {
+      font-size: 2.5rem;
+      background: rgba(102, 178, 178, 0.2);
+      padding: var(--space-3);
+      border-radius: var(--radius-full);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .sectionTitle {
+      font-size: var(--font-size-2xl);
+      font-weight: var(--font-weight-bold);
+      color: var(--text-primary);
+      margin: 0;
+    }
+  }
+
+  .soundGrid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
+
+  .soundCard {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(102, 178, 178, 0.1);
+    border-radius: var(--radius-lg);
+    padding: var(--space-4);
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    transition: all 0.2s ease;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(102, 178, 178, 0.2);
+      transform: translateY(-2px);
+    }
+
+    .soundIcon {
+      font-size: var(--font-size-2xl);
+      background: rgba(102, 178, 178, 0.2);
+      padding: var(--space-2);
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 50px;
+      height: 50px;
+    }
+
+    .soundInfo {
+      flex: 1;
+
+      .soundTitle {
+        font-weight: var(--font-weight-semibold);
+        color: var(--text-primary);
+        margin-bottom: var(--space-2);
+        font-size: var(--font-size-base);
+      }
+
+      .audioPlayer {
+        width: 100%;
+        height: 40px;
+        border-radius: var(--radius-lg);
+        
+        &::-webkit-media-controls-panel {
+          background-color: rgba(102, 178, 178, 0.1);
+        }
+      }
+    }
+  }
+}
+
+// Video Library Section
+.videoLibrary {
+  .libraryHeader {
+    text-align: center;
+    margin-bottom: var(--space-8);
+
+    .libraryIcon {
+      font-size: 3rem;
+      background: rgba(102, 178, 178, 0.2);
+      padding: var(--space-4);
+      border-radius: var(--radius-full);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: var(--space-4);
+    }
+
+    .sectionTitle {
+      font-size: var(--font-size-3xl);
+      font-weight: var(--font-weight-bold);
+      color: var(--text-primary);
+      margin-bottom: var(--space-3);
+      justify-content: center;
+    }
+
+    .librarySubtitle {
+      color: var(--text-secondary);
+      font-size: var(--font-size-lg);
+      margin: 0;
+    }
+  }
+
+  .videoGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: var(--space-6);
+  }
+
+  .videoCard {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(102, 178, 178, 0.1);
+    border-radius: var(--radius-lg);
+    padding: var(--space-6);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--teal-400));
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+    }
+
+    &:hover {
+      transform: translateY(-4px);
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(102, 178, 178, 0.3);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+
+      &::before {
+        transform: scaleX(1);
+      }
+    }
+
+    .videoIcon {
+      font-size: var(--font-size-3xl);
+      background: rgba(102, 178, 178, 0.2);
+      padding: var(--space-3);
+      border-radius: var(--radius-lg);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: var(--space-4);
+      width: 60px;
+      height: 60px;
+    }
+
+    .videoContent {
+      .videoTitle {
+        font-size: var(--font-size-lg);
+        font-weight: var(--font-weight-semibold);
+        color: var(--text-primary);
+        margin-bottom: var(--space-3);
+        line-height: 1.4;
+      }
+
+      .videoTag {
+        display: inline-block;
+        background: var(--primary-bg);
+        color: var(--primary);
+        padding: var(--space-1) var(--space-3);
+        border-radius: var(--radius-full);
+        font-size: var(--font-size-sm);
+        font-weight: var(--font-weight-semibold);
+        margin-bottom: var(--space-4);
+      }
+
+      .videoButton {
+        width: 100%;
+        background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+        border: none;
+        border-radius: var(--radius-lg);
+        padding: var(--space-4) var(--space-6);
+        color: white;
+        font-weight: var(--font-weight-semibold);
+        cursor: pointer;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: var(--space-2);
+
+        &:hover {
+          background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+          transform: translateY(-2px);
+          box-shadow: 0 6px 20px rgba(102, 178, 178, 0.4);
+        }
+      }
+    }
+  }
+}
+
+// Counselor's Corner Section
+.counselorsCorner {
+  .cornerHeader {
+    display: flex;
+    align-items: center;
+    gap: var(--space-6);
+    margin-bottom: var(--space-8);
+    text-align: center;
+    justify-content: center;
+
+    .cornerIcon {
+      font-size: 3.5rem;
+      background: rgba(102, 178, 178, 0.2);
+      padding: var(--space-4);
+      border-radius: var(--radius-full);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .cornerTitleSection {
+      .sectionTitle {
+        font-size: var(--font-size-3xl);
+        font-weight: var(--font-weight-bold);
+        color: var(--text-primary);
+        margin-bottom: var(--space-2);
+        justify-content: center;
+      }
+
+      .cornerSubtitle {
+        color: var(--text-secondary);
+        font-size: var(--font-size-lg);
+        margin: 0;
+      }
+    }
+  }
+
+  .recommendedVideos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+    gap: var(--space-6);
+  }
+
+  .recommendedVideoCard {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(102, 178, 178, 0.1);
+    border-radius: var(--radius-lg);
+    padding: var(--space-6);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary), var(--teal-400));
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+    }
+
+    &:hover {
+      transform: translateY(-4px);
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(102, 178, 178, 0.3);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.2);
+
+      &::before {
+        transform: scaleX(1);
+      }
+    }
+
+    .videoHeader {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-4);
+      margin-bottom: var(--space-4);
+
+      .videoIcon {
+        font-size: var(--font-size-2xl);
+        width: 50px;
+        height: 50px;
+        background: rgba(102, 178, 178, 0.2);
+        border-radius: var(--radius-full);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+
+      .videoInfo {
+        flex: 1;
+
+        .videoTitle {
+          font-size: var(--font-size-lg);
+          font-weight: var(--font-weight-semibold);
+          color: var(--text-primary);
+          margin-bottom: var(--space-2);
+          line-height: 1.4;
+        }
+
+        .videoDescription {
+          color: var(--text-secondary);
+          font-size: var(--font-size-base);
+          line-height: 1.6;
+          margin-bottom: var(--space-3);
+        }
+
+        .videoCategory {
+          display: inline-block;
+          background: var(--primary-bg);
+          color: var(--primary);
+          padding: var(--space-1) var(--space-3);
+          border-radius: var(--radius-full);
+          font-size: var(--font-size-sm);
+          font-weight: var(--font-weight-semibold);
+        }
+      }
+    }
+
+    .watchButton {
+      width: 100%;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      border: none;
+      border-radius: var(--radius-lg);
+      padding: var(--space-4) var(--space-6);
+      color: white;
+      font-weight: var(--font-weight-semibold);
+      font-size: var(--font-size-base);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-2);
+
+      &:hover {
+        background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(102, 178, 178, 0.4);
+      }
+    }
+  }
+}
+
+// Sleep Tips Section
+.sleepTips {
+  .tipsHeader {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    margin-bottom: var(--space-6);
+
+    .tipsIcon {
+      font-size: 2.5rem;
+      background: rgba(102, 178, 178, 0.2);
+      padding: var(--space-3);
+      border-radius: var(--radius-full);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .sectionTitle {
+      font-size: var(--font-size-2xl);
+      font-weight: var(--font-weight-bold);
+      color: var(--text-primary);
+      margin: 0;
+    }
+  }
+
+  .tipsList {
+    ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+
+      .tipItem {
+        display: flex;
+        align-items: flex-start;
+        gap: var(--space-3);
+        margin-bottom: var(--space-4);
+        color: var(--text-secondary);
+        font-size: var(--font-size-base);
+        line-height: 1.6;
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+
+        .tipBullet {
+          color: var(--primary);
+          font-weight: var(--font-weight-bold);
+          font-size: var(--font-size-lg);
+          margin-top: 2px;
+        }
+      }
+    }
+  }
+}
+
+// Gratitude Journal Section
+.gratitudeJournal {
+  .journalHeader {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    margin-bottom: var(--space-6);
+
+    .journalIcon {
+      font-size: 2.5rem;
+      background: rgba(102, 178, 178, 0.2);
+      padding: var(--space-3);
+      border-radius: var(--radius-full);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .sectionTitle {
+      font-size: var(--font-size-2xl);
+      font-weight: var(--font-weight-bold);
+      color: var(--text-primary);
+      margin: 0;
+    }
+  }
+
+  .journalDescription {
+    color: var(--text-secondary);
+    font-size: var(--font-size-base);
+    line-height: 1.6;
+    margin-bottom: var(--space-6);
+  }
+
+  .journalButton {
+    width: 100%;
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    border: none;
+    border-radius: var(--radius-lg);
+    padding: var(--space-5) var(--space-6);
+    color: white;
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--font-size-lg);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-3);
+    text-decoration: none;
+    box-shadow: 0 4px 15px rgba(102, 178, 178, 0.3);
+
+    &:hover {
+      background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(102, 178, 178, 0.4);
+      text-decoration: none;
+      color: white;
+    }
+
+    .buttonIcon {
+      font-size: var(--font-size-xl);
+    }
+  }
+}
+
+// Video Modal
+.modalBackdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: var(--space-6);
+}
+
+.modalContent {
+  background: var(--bg-glass);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  padding: var(--space-8);
+  max-width: 90vw;
+  max-height: 90vh;
+  position: relative;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+
+  .modalHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-6);
+
+    h3 {
+      font-size: var(--font-size-2xl);
+      font-weight: var(--font-weight-bold);
+      color: var(--text-primary);
+      margin: 0;
+    }
+
+    .closeButton {
+      background: none;
+      border: none;
+      font-size: var(--font-size-2xl);
+      color: var(--text-secondary);
+      cursor: pointer;
+      padding: var(--space-2);
+      border-radius: var(--radius-lg);
+      transition: all 0.2s ease;
+
+      &:hover {
+        background: var(--bg-card);
+        color: var(--text-primary);
+      }
+    }
+  }
+
+  .modalBody {
+    position: relative;
+    width: 100%;
+    height: 60vh;
+    min-height: 400px;
+
+    .videoPlayer {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+      border-radius: var(--radius-lg);
+    }
+  }
+}
+
+// Responsive Design
+@media (max-width: 1024px) {
+  .mainContent {
+    gap: var(--space-6);
+  }
+
+  .heroSection {
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
+
+  .resourcesRow {
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
+
+  .recommendedVideos {
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
+
+  .videoGrid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-4);
+  }
+
+  .headerContent {
+    flex-direction: column;
+    text-align: center;
+    gap: var(--space-4);
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 0 var(--space-4);
+  }
+
+  .section {
+    padding: var(--space-6);
+  }
+
+  .title {
+    font-size: var(--font-size-3xl);
+  }
+
+  .subtitle {
+    font-size: var(--font-size-lg);
+  }
+
+  .videoGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .recommendedVideoCard {
+    .videoHeader {
+      flex-direction: column;
+      gap: var(--space-3);
+      text-align: center;
+
+      .videoIcon {
+        align-self: center;
+      }
+    }
+  }
+
+  .modalContent {
+    padding: var(--space-4);
+    max-width: 95vw;
+    max-height: 85vh;
+
+    .modalBody {
+      height: 50vh;
+      min-height: 300px;
+    }
+  }
+}

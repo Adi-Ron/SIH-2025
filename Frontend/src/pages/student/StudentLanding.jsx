@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { useMood } from '../../context/MoodContext.jsx'
 import { useAuth } from '../../context/AuthContext.jsx'
@@ -7,6 +7,7 @@ import styles from './StudentLanding.module.scss'
 export function StudentLanding() {
   const { currentMood, emotions, updateMood, personalizedContent, isLoading, getMoodInsights } = useMood()
   const { studentLoggedIn, adminLoggedIn } = useAuth()
+  const navigate = useNavigate()
   const [showInsights, setShowInsights] = useState(false)
   const [animationKey, setAnimationKey] = useState(0)
 
@@ -19,6 +20,14 @@ export function StudentLanding() {
 
   const handleEmotionSelect = async (emotionId) => {
     await updateMood(emotionId, 'User selected emotion on landing page')
+  }
+
+  const handleSupportClick = (route) => {
+    if (studentLoggedIn) {
+      navigate(route)
+    } else {
+      navigate('/login?role=student')
+    }
   }
 
   const getDynamicGreeting = () => {
@@ -250,55 +259,30 @@ export function StudentLanding() {
               {getDynamicDescription()}
             </p>
 
-            {/* Personalized Content */}
-            {personalizedContent && (
-              <div className={styles.personalizedContent}>
-                <div className={styles.activityCard}>
-                  <div className={styles.activityIcon}>💡</div>
-                  <span>{personalizedContent.activity}</span>
-                </div>
-                <div className={styles.quoteCard}>
-                  <div className={styles.quoteIcon}>💭</div>
-                  <span>"{personalizedContent.quote}"</span>
-                </div>
+            {/* Inspirational Quote */}
+            <div className={styles.quoteSection}>
+              <div className={styles.quoteCard}>
+                <div className={styles.quoteIcon}>💭</div>
+                <span>"Every emotion is valid and temporary. You are stronger than you know."</span>
               </div>
-            )}
+            </div>
 
-            {/* Emotion Selector */}
+            {/* Emotion Display */}
             <div className={styles.emotionSection}>
-              <p className={styles.emotionPrompt}>Whatever you're feeling, we're here to listen</p>
+              <p className={styles.emotionPrompt}>We understand and support all emotions</p>
               <div className={styles.emotionGrid}>
                 {emotions.map(emotion => (
-                  <button
+                  <div
                     key={emotion.id}
-                    className={`${styles.emotionBtn} ${currentMood === emotion.id ? styles.active : ''}`}
-                    onClick={() => handleEmotionSelect(emotion.id)}
-                    disabled={isLoading}
+                    className={styles.emotionDisplay}
                     style={{
                       '--emotion-color': emotion.color,
-                      opacity: isLoading ? 0.7 : 1
                     }}
                   >
                     <div className={styles.emotionEmoji}>{emotion.emoji}</div>
                     <div className={styles.emotionLabel}>{emotion.label}</div>
-                    {isLoading && currentMood === emotion.id && (
-                      <div className={styles.loadingSpinner}></div>
-                    )}
-                  </button>
+                  </div>
                 ))}
-              </div>
-              
-              {/* Slider */}
-              <div className={styles.sliderContainer}>
-                <div className={styles.sliderTrack}>
-                  <div 
-                    className={styles.sliderThumb}
-                    style={{
-                      left: `${emotions.findIndex(e => e.id === currentMood) * 25}%`,
-                      backgroundColor: emotions.find(e => e.id === currentMood)?.color
-                    }}
-                  />
-                </div>
               </div>
             </div>
 
@@ -383,34 +367,63 @@ export function StudentLanding() {
 
         {/* Support Options */}
         <section id="support" className={styles.supportSection}>
-          <h2 className={styles.sectionTitle}>Student Support Options</h2>
+          <h2 className={styles.sectionTitle}>Comprehensive Support Ecosystem</h2>
+          <p className={styles.sectionSubtitle}>Your mental health journey is supported by multiple layers of care, from AI-powered assistance to professional counseling.</p>
           <div className={styles.supportGrid}>
             <div className={styles.supportCard}>
               <div className={styles.supportIcon}>🤖</div>
               <h3>AI Companion</h3>
-              <p>Chat with our intelligent AI for 24/7 support</p>
-              <Link to="/student/peer" className={styles.supportBtn}>Start Chatting</Link>
+              <p className={styles.supportDescription}>
+                Our advanced AI companion provides 24/7 emotional support, mood tracking, and personalized recommendations. 
+                Powered by machine learning, it understands your patterns and offers evidence-based interventions.
+              </p>
+              <div className={styles.featureTags}>
+                <span className={styles.tag}>24/7 Available</span>
+                <span className={styles.tag}>Multi-language</span>
+                <span className={styles.tag}>Personalized</span>
+              </div>
             </div>
 
             <div className={styles.supportCard}>
               <div className={styles.supportIcon}>👥</div>
               <h3>Peer Support</h3>
-              <p>Connect with fellow students who understand</p>
-              <Link to="/student/peer" className={styles.supportBtn}>Join Community</Link>
+              <p className={styles.supportDescription}>
+                Connect with fellow students who understand your challenges. Join anonymous support groups, 
+                share experiences, and build meaningful connections in a safe, moderated environment.
+              </p>
+              <div className={styles.featureTags}>
+                <span className={styles.tag}>Anonymous</span>
+                <span className={styles.tag}>Peer-led</span>
+                <span className={styles.tag}>Safe Space</span>
+              </div>
             </div>
 
             <div className={styles.supportCard}>
               <div className={styles.supportIcon}>👨‍⚕️</div>
               <h3>Professional Counseling</h3>
-              <p>Book sessions with licensed professionals</p>
-              <Link to="/student/counselor" className={styles.supportBtn}>Book Session</Link>
+              <p className={styles.supportDescription}>
+                Access licensed mental health professionals for one-on-one therapy sessions. 
+                Our counselors specialize in student mental health and offer evidence-based treatments.
+              </p>
+              <div className={styles.featureTags}>
+                <span className={styles.tag}>Licensed Therapists</span>
+                <span className={styles.tag}>In-person Sessions</span>
+                <span className={styles.tag}>Evidence-based</span>
+              </div>
             </div>
 
             <div className={styles.supportCard}>
               <div className={styles.supportIcon}>📚</div>
               <h3>Self-Help Resources</h3>
-              <p>Access mental health resources and exercises</p>
-              <Link to="/student/self-help" className={styles.supportBtn}>Explore Resources</Link>
+              <p className={styles.supportDescription}>
+                Access a comprehensive library of mental health resources including guided meditations, 
+                breathing exercises, educational content, and wellness tools designed for students.
+              </p>
+              <div className={styles.featureTags}>
+                <span className={styles.tag}>Guided Exercises</span>
+                <span className={styles.tag}>Educational</span>
+                <span className={styles.tag}>Wellness Tools</span>
+              </div>
             </div>
           </div>
         </section>
@@ -450,41 +463,150 @@ export function StudentLanding() {
         )}
       </main>
 
-      {/* Footer */}
-      <footer className={styles.footer}>
-        <div className={styles.footerContent}>
-          <div className={styles.footerBrand}>
-            <div className={styles.footerLogo}>
-              <div className={styles.footerLogoIcon}>💚</div>
-              <span>MindFulness</span>
+        {/* Interactive Features Showcase */}
+        <section className={styles.showcaseSection}>
+          <h2 className={styles.sectionTitle}>Experience the Future of Mental Health</h2>
+          <div className={styles.showcaseGrid}>
+            <div className={styles.showcaseCard}>
+              <div className={styles.showcaseIcon}>🧠</div>
+              <h3>AI-Powered Insights</h3>
+              <p>Advanced machine learning analyzes your mood patterns and provides personalized recommendations for better mental wellness.</p>
+              <div className={styles.featureHighlight}>
+                <span className={styles.highlightText}>Real-time analysis</span>
+                <span className={styles.highlightText}>Personalized insights</span>
+              </div>
             </div>
-            <p>Your mental health companion for university life</p>
+
+            <div className={styles.showcaseCard}>
+              <div className={styles.showcaseIcon}>📱</div>
+              <h3>Multi-Language Support</h3>
+              <p>Chat with our AI companion in your native language. We support English, Hindi, Tamil, Telugu, Bengali, and Kannada.</p>
+              <div className={styles.languageFlags}>
+                <span>🇺🇸</span>
+                <span>🇮🇳</span>
+                <span>🇱🇰</span>
+                <span>🇧🇩</span>
+              </div>
+            </div>
+
+            <div className={styles.showcaseCard}>
+              <div className={styles.showcaseIcon}>📊</div>
+              <h3>Comprehensive Assessments</h3>
+              <p>Take scientifically-backed mental health assessments (PHQ-9, GAD-7, GHQ-12) and track your progress over time.</p>
+              <div className={styles.assessmentBadges}>
+                <span className={styles.badge}>PHQ-9</span>
+                <span className={styles.badge}>GAD-7</span>
+                <span className={styles.badge}>GHQ-12</span>
+              </div>
+            </div>
+
+            <div className={styles.showcaseCard}>
+              <div className={styles.showcaseIcon}>🎯</div>
+              <h3>Goal-Oriented Support</h3>
+              <p>Set mental wellness goals, track your progress, and celebrate achievements with our integrated goal-setting system.</p>
+              <div className={styles.goalProgress}>
+                <div className={styles.progressBar}>
+                  <div className={styles.progressFill} style={{width: '75%'}}></div>
+                </div>
+                <span>75% Complete</span>
+              </div>
+            </div>
           </div>
-          <div className={styles.footerLinks}>
-            <div className={styles.footerColumn}>
-              <h4>Support</h4>
-              <a href="#features">Features</a>
-              <a href="#about">About</a>
-              <a href="#support">Student Support</a>
-            </div>
-            <div className={styles.footerColumn}>
-              <h4>Resources</h4>
-              <a href="#">Privacy Policy</a>
-              <a href="#">Terms of Service</a>
-              <a href="#">Help Center</a>
-            </div>
-            <div className={styles.footerColumn}>
-              <h4>Contact</h4>
-              <a href="#">support@hopeline.edu</a>
-              <a href="#">crisis@hopeline.edu</a>
-              <a href="#">+1 (800) 123-4567</a>
+        </section>
+
+        {/* Interactive Demo Section */}
+        <section className={styles.demoSection}>
+          <h2 className={styles.sectionTitle}>See MindFulness in Action</h2>
+          <div className={styles.demoContainer}>
+            <div className={styles.demoContent}>
+              <div className={styles.demoChat}>
+                <div className={styles.chatHeader}>
+                  <div className={styles.chatAvatar}>🤖</div>
+                  <div className={styles.chatInfo}>
+                    <h4>AI Companion</h4>
+                    <span className={styles.onlineStatus}>● Online</span>
+                  </div>
+                </div>
+                <div className={styles.chatMessages}>
+                  <div className={`${styles.message} ${styles.bot}`}>
+                    <p>Hi! I'm your MindFulness AI companion. How are you feeling today?</p>
+                  </div>
+                  <div className={`${styles.message} ${styles.user}`}>
+                    <p>I'm feeling a bit stressed about my exams...</p>
+                  </div>
+                  <div className={`${styles.message} ${styles.bot}`}>
+                    <p>I understand exam stress can be overwhelming. Let me help you with some breathing exercises and study tips.</p>
+                  </div>
+                </div>
+              </div>
+              <div className={styles.demoFeatures}>
+                <div className={styles.demoFeature}>
+                  <div className={styles.featureIcon}>💬</div>
+                  <h4>24/7 Chat Support</h4>
+                  <p>Always available when you need someone to talk to</p>
+                </div>
+                <div className={styles.demoFeature}>
+                  <div className={styles.featureIcon}>🎵</div>
+                  <h4>Guided Meditation</h4>
+                  <p>Access calming sounds and meditation sessions</p>
+                </div>
+                <div className={styles.demoFeature}>
+                  <div className={styles.featureIcon}>📈</div>
+                  <h4>Progress Tracking</h4>
+                  <p>Monitor your mental health journey over time</p>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-        <div className={styles.footerBottom}>
-          <p>&copy; 2025 MindFulness. All rights reserved. Your mental health matters.</p>
-        </div>
-      </footer>
-    </div>
-  )
+        </section>
+
+        {/* Call to Action */}
+        <section className={styles.finalCTA}>
+          <div className={styles.ctaContent}>
+            <h2 className={styles.ctaTitle}>Ready to Start Your Mental Health Journey?</h2>
+            <p className={styles.ctaDescription}>
+              Join thousands of students who have found peace, support, and growth through MindFulness. 
+              Your mental health matters, and we're here to help you thrive.
+            </p>
+            <div className={styles.ctaButtons}>
+              {studentLoggedIn ? (
+                <Link to="/student/dashboard" className={styles.ctaPrimary}>
+                  Continue Your Journey
+                </Link>
+              ) : (
+                <>
+                  <Link to="/student/register" className={styles.ctaPrimary}>
+                    Get Started Free
+                  </Link>
+                  <Link to="/login?role=student" className={styles.ctaSecondary}>
+                    Sign In
+                  </Link>
+                </>
+              )}
+            </div>
+            <div className={styles.trustIndicators}>
+              <div className={styles.trustItem}>
+                <span className={styles.trustIcon}>🔒</span>
+                <span>100% Private & Secure</span>
+              </div>
+              <div className={styles.trustItem}>
+                <span className={styles.trustIcon}>⚡</span>
+                <span>Instant Access</span>
+              </div>
+              <div className={styles.trustItem}>
+                <span className={styles.trustIcon}>🎓</span>
+                <span>Built for Students</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Footer */}
+        <footer className={styles.footer}>
+          <div className={styles.teamCredits}>
+            <p>Made by - Aditya Banerjee, Khushi Mhamane, Dominic Joseph, Aditya S S Varma, Peeyush Rampal, Sharon Melhi</p>
+          </div>
+        </footer>
+      </div>
+    )
 }

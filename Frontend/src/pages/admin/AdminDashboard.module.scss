@@ -1,32 +1,56 @@
-.dashboardContainer {
+.adminPage {
+  min-height: 100vh;
+  background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+  padding: 40px 20px;
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 40px;
 }
 
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: var(--panel-2);
-  padding: 16px 24px;
-  border-radius: var(--radius-lg);
+  background: var(--bg-glass);
+  backdrop-filter: blur(20px);
+  padding: 30px 40px;
+  border-radius: var(--radius-xl);
   border: 1px solid var(--border);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
 }
 
 .headerLeft {
   display: flex;
   align-items: center;
-  gap: 16px;
-  h1 {
-    font-size: 24px;
-    margin: 0;
-    color: #fff;
-  }
+  gap: 24px;
 }
 
 .logo {
-  height: 40px;
+  height: 60px;
+  width: auto;
+}
+
+.brandInfo {
+  h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 0 0 4px 0;
+    color: var(--text-primary);
+    background: linear-gradient(135deg, var(--primary), var(--teal-400));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  p {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin: 0;
+    font-weight: 500;
+  }
 }
 
 .headerRight {
@@ -73,121 +97,331 @@
 
 .statsSection {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 32px;
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
 }
 
 .statCard {
-  background: var(--panel);
-  border-radius: var(--radius-lg);
-  padding: 20px;
+  background: var(--bg-glass);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  padding: 32px;
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 24px;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.15);
+    border-color: var(--primary);
+  }
 }
 
 .statIcon {
-  font-size: 28px;
-  background: var(--panel-2);
-  padding: 12px;
+  font-size: 3rem;
+  background: linear-gradient(135deg, var(--primary-bg), rgba(102, 178, 178, 0.1));
+  padding: 20px;
   border-radius: 50%;
+  border: 1px solid var(--primary-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
+}
+
+.statContent {
+  flex: 1;
 }
 
 .statValue {
-  font-size: 28px;
-  font-weight: 700;
-  color: var(--primary-light);
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  line-height: 1;
+  margin-bottom: 8px;
 }
 
 .statLabel {
-  font-size: 14px;
-  color: var(--muted);
+  font-size: 1rem;
+  color: var(--text-secondary);
+  font-weight: 600;
   text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .contentGrid {
   display: grid;
   grid-template-columns: 2fr 1fr;
-  gap: 24px;
+  gap: 40px;
   align-items: flex-start;
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
 }
 
 .mainContent, .sidebar {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 32px;
+}
+
+// Card styles
+.card {
+  background: var(--bg-glass);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  padding: 32px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.15);
+  }
 }
 
 .cardHeader {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+  
   h3 {
     margin: 0;
-    font-size: 18px;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+  
+  .cardIcon {
+    font-size: 1.5rem;
+    opacity: 0.7;
   }
 }
 
 .activityList, .actionList, .statusList {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 16px;
 }
 
 .activityItem {
   display: flex;
-  gap: 12px;
+  gap: 16px;
   align-items: center;
-  padding: 12px;
+  padding: 20px;
   background: var(--panel-2);
-  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  transition: all 0.3s ease;
+  
+  &:hover {
+    background: var(--panel-3);
+    border-color: var(--primary);
+    transform: translateX(4px);
+  }
 }
 
 .activityIcon {
-  font-size: 18px;
+  font-size: 1.5rem;
+  background: var(--primary-bg);
+  padding: 12px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+}
+
+.activityContent {
+  flex: 1;
+}
+
+.activityTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 4px;
 }
 
 .activityTime {
-  font-size: 12px;
-  color: var(--muted);
+  font-size: 0.85rem;
+  color: var(--text-secondary);
 }
 
 .actionBtn {
   width: 100%;
-  padding: 12px;
+  padding: 20px;
   background: var(--panel-2);
   border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  color: var(--text);
-  font-size: 15px;
+  border-radius: var(--radius-lg);
+  color: var(--text-primary);
+  font-size: 1rem;
+  font-weight: 600;
   cursor: pointer;
   display: flex;
-  gap: 12px;
+  gap: 16px;
   align-items: center;
+  transition: all 0.3s ease;
+  text-align: left;
+  
   &:hover {
-    background: var(--panel-3);
-    border-color: var(--border-strong);
+    background: var(--primary-bg);
+    border-color: var(--primary);
+    color: var(--primary);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(102, 178, 178, 0.2);
+  }
+  
+  .actionIcon {
+    font-size: 1.5rem;
+    background: var(--primary-bg);
+    padding: 12px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
   }
 }
 
 .statusItem {
   display: flex;
   justify-content: space-between;
-  padding-bottom: 8px;
-  border-bottom: 1px solid var(--border);
+  align-items: center;
+  padding: 16px 20px;
+  background: var(--panel-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  margin-bottom: 12px;
+  transition: all 0.3s ease;
+  
   &:last-child {
-    border: none;
+    margin-bottom: 0;
   }
+  
+  &:hover {
+    background: var(--panel-3);
+    border-color: var(--success);
+    transform: translateX(4px);
+  }
+}
+
+.statusLabel {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
 }
 
 .statusValue {
   color: var(--success);
-  font-weight: 500;
+  font-weight: 700;
+  font-size: 1rem;
+  padding: 6px 12px;
+  background: rgba(34, 197, 94, 0.1);
+  border-radius: var(--radius-full);
+  border: 1px solid rgba(34, 197, 94, 0.2);
 }
 
 @media (max-width: 1200px) {
   .contentGrid {
     grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  
+  .statsSection {
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 24px;
+  }
+}
+
+@media (max-width: 768px) {
+  .adminPage {
+    padding: 20px 16px;
+    gap: 32px;
+  }
+  
+  .header {
+    padding: 24px;
+    flex-direction: column;
+    gap: 20px;
+    text-align: center;
+  }
+  
+  .headerLeft {
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .brandInfo h1 {
+    font-size: 1.5rem;
+  }
+  
+  .statsSection {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .statCard {
+    padding: 24px;
+    gap: 20px;
+  }
+  
+  .statIcon {
+    width: 60px;
+    height: 60px;
+    font-size: 2rem;
+  }
+  
+  .statValue {
+    font-size: 2rem;
+  }
+  
+  .card {
+    padding: 24px;
+  }
+  
+  .activityItem, .actionBtn, .statusItem {
+    padding: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .adminPage {
+    padding: 16px 12px;
+  }
+  
+  .header {
+    padding: 20px;
+  }
+  
+  .statCard {
+    padding: 20px;
+    flex-direction: column;
+    text-align: center;
+    gap: 16px;
+  }
+  
+  .card {
+    padding: 20px;
+  }
+  
+  .activityItem, .actionBtn, .statusItem {
+    padding: 12px;
+    flex-direction: column;
+    text-align: center;
+    gap: 12px;
   }
 }
